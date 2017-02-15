@@ -28,7 +28,7 @@ def create_model():
     model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(32,64,3)))
     model.add(Cropping2D(cropping=((10,4), (0,0)), input_shape=(32,64,3)))
 
-    # 5 convolution layers with MaxPooling
+    # 5 convolution layers
     model.add(Convolution2D(24, 5, 5, border_mode='same', subsample=(2, 2), activation='relu'))
     model.add(Convolution2D(36, 5, 5, border_mode='same', subsample=(2, 2), activation='relu'))
     model.add(Convolution2D(48, 5, 5, border_mode='same', subsample=(2, 2), activation='relu'))

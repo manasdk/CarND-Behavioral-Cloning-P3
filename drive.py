@@ -11,6 +11,7 @@ import eventlet.wsgi
 from PIL import Image
 from flask import Flask
 from io import BytesIO
+from scipy.misc import imresize
 
 from keras.models import load_model
 import h5py
@@ -61,6 +62,8 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
+        # resize image to make predictions work. Without resize prediction hangs.
+        image_array = imresize(image_array, (32,64,3))
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))
